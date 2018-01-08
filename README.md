@@ -49,10 +49,6 @@ Run this container with tty mode enabled. In your `docker-compose.yml`, add `tty
 - **45000** (bind it).
 - **3000**
 
-#### Tags
-- **latest** : latest versions of rTorrent/libtorrent.
-- Use **$RTORRENT_VER-$LIBTORRENT_VER** to get specific versions of rTorrent/libtorrent.
-
 #### Volumes
 - **/data** : your downloaded torrents, session files, symlinks...
 - **/flood-db** : Flood databases.
