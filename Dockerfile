@@ -126,7 +126,7 @@ RUN if [ "${WITH_FILEBOT}" == "YES" ]; then \
 COPY rootfs /
 VOLUME /data /config
 EXPOSE 3000
-RUN chmod +x /usr/local/bin/startup /etc/s6.d/*/*
+RUN chmod +x /usr/local/bin/startup
 
 ENTRYPOINT ["/usr/local/bin/startup"]
 CMD ["supervisord", "-c", "/etc/supervisor/supervisord.conf"]
