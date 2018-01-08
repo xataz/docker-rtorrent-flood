@@ -1,0 +1,69 @@
+#!/bin/sh
+
+## Create user torrent
+echo "Create torrent user ..."
+if [ "$(grep ':'${GID}':' /etc/group)" == "" ]; then
+    addgroup -g ${GID} torrent 
+    GROUP_NAME=torrent
+else
+    GROUP_NAME=$(grep ':'${GID}':' /etc/group | cut -d: -f1)
+fi
+
+if [ "$(grep ${UID} /etc/passwd)" == "" ]; then
+    adduser -h /home/torrent -s /bin/sh -G ${GROUP_NAME} -D -u ${UID} torrent
+fi
+
+## Create require folder
+echo "Create folder ..."
+mkdir -p /data/torrents /data/.watch /data/.session /data/Media/Movies /data/Media/TV /data/Media/Animes /data/Media/Music /flood-db /config/rtorrent /etc/supervisor/
+
+
+## Remove rtorrent.lock if exist
+rm -f /data/.session/rtorrent.lock
+
+## Generate configuration
+echo "Generate configuration ..."
+sed -i -e "s|<FLOOD_SECRET>|$FLOOD_SECRET|g" \
+       -e "s|<WEBROOT>|$WEBROOT|g" /app/flood/config.js
+
+if [ -e /filebot ]; then
+    mkdir -p /data/Media/Movies /data/Media/TV /data/Media/Animes /data/Media/Music
+    chown -R $UID:$GID /filebot /data
+
+    grep "system.method.set_key=event.download.finished" /home/torrent/.rtorrent.rc > /dev/null 2>&1
+    [ $? -ne 0 ] && echo 'system.method.set_key=event.download.finished,filebot,"execute={/usr/local/bin/postdl,$d.get_base_path=,$d.get_name=,$d.get_custom1=}"' >> /home/torrent/.rtorrent.rc
+
+    grep "system.method.set_key=event.download.erased" /home/torrent/.rtorrent.rc > /dev/null 2>&1
+    [ $? -ne 0 ] && echo 'system.method.set_key=event.download.erased,filebot_cleaner,"execute=/usr/local/bin/postrm"' >> /home/torrent/.rtorrent.rc
+
+    sed -e 's#<FILEBOT_RENAME_MOVIES>#'"$FILEBOT_RENAME_MOVIES"'#' \
+        -e 's#<FILEBOT_RENAME_METHOD>#'"$FILEBOT_RENAME_METHOD"'#' \
+        -e 's#<FILEBOT_RENAME_MUSICS>#'"$FILEBOT_RENAME_MUSICS"'#' \
+        -e 's#<FILEBOT_RENAME_SERIES>#'"$FILEBOT_RENAME_SERIES"'#' \
+        -e 's#<FILEBOT_RENAME_ANIMES>#'"$FILEBOT_RENAME_ANIMES"'#' -i /usr/local/bin/postdl
+
+    chmod +x /usr/local/bin/post*
+fi
+
+if [ ${RTORRENT_SCGI} -ne 0 ]; then
+    sed -i -e 's|^scgi_local.*$|scgi_port = 0.0.0.0:'${RTORRENT_SCGI}'|' /home/torrent/.rtorrent.rc
+    sed -i -e 's|socket: true,|socket: false,|' -e 's|port: 5000,|port: '${RTORRENT_SCGI}',|' /app/flood/config.js
+fi
+
+sed -i -e 's|<PORT_RTORRENT>|'$PORT_RTORRENT'|g' -e 's|<DHT_RTORRENT>|'$DHT_RTORRENT'|g' /home/torrent/.rtorrent.rc
+
+## externalize rtorrent configuration
+if [ ! -e /config/rtorrent/.rtorrent.rc ]; then
+    mv /home/torrent/.rtorrent.rc /config/rtorrent/.rtorrent.rc
+    ln -s /config/rtorrent/.rtorrent.rc /home/torrent/.rtorrent.rc
+else
+    rm -f /home/torrent/.rtorrent.rc
+    ln -s /config/rtorrent/.rtorrent.rc /home/torrent/.rtorrent.rc
+fi
+
+## Apply permission
+echo "Apply permissions ..."
+chown -R $UID:$GID /data /home/torrent /tmp /app/flood /flood-db /etc/s6.d
+chmod +x /etc/s6.d/.s6-svscan/finish /etc/s6.d/flood/run /etc/s6.d/rtorrent/run
+
+exec su-exec $UID:$GID /sbin/tini -- $@
