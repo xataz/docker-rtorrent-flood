@@ -21,6 +21,7 @@
 - rTorrent and libtorrent are compiled from source.
 - Provides by default a solid configuration.
 - No **ROOT** process
+* Persitance custom configuration for rtorrent
 - [Filebot](http://www.filebot.net/) is included on xataz/flood:filebot, and creates symlinks in `/data/Media`.
 - [Flood](https://github.com/jfurrow/flood), a modern web UI for rTorrent with a Node.js backend and React frontend.
 
@@ -55,3 +56,4 @@ Run this container with tty mode enabled. In your `docker-compose.yml`, add `tty
 #### Volumes
 - **/data** : your downloaded torrents, session files, symlinks...
 - **/flood-db** : Flood databases.
+- **/config/rtorrent** : Persistant volume for rtorrent configuration
