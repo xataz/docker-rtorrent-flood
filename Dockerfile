@@ -3,7 +3,7 @@ FROM xataz/alpine:3.7
 ARG BUILD_CORES
 ARG RTORRENT_VER=0.9.6
 ARG LIBTORRENT_VER=0.13.6
-ARG FLOOD_VER=1.0.0
+ARG FLOOD_VER=
 
 ENV UID=991 \
     GID=991 \
@@ -15,9 +15,9 @@ ENV UID=991 \
     PKG_CONFIG_PATH=/usr/local/lib/pkgconfig
 
 LABEL Description="flood based on alpine" \
-      tags="latest" \
+      tags="" \
       maintainer="xataz <https://github.com/xataz>" \
-      build_ver="2018020501"
+      build_ver="201802100700"
 
 RUN export BUILD_DEPS="build-base \
                         libtool \
@@ -99,7 +99,7 @@ RUN export BUILD_DEPS="build-base \
 
 ARG WITH_FILEBOT=NO
 ARG FILEBOT_VER=4.7.9
-ARG CHROMAPRINT_VER=1.4.2
+ARG CHROMAPRINT_VER=1.4.3
 
 ENV FILEBOT_RENAME_METHOD="symlink" \
     FILEBOT_RENAME_MOVIES="{n} ({y})" \
