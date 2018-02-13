@@ -63,7 +63,6 @@ fi
 
 ## Apply permission
 echo "Apply permissions ..."
-chown -R $UID:$GID /data /home/torrent /tmp /app/flood /flood-db /etc/s6.d
-chmod +x /etc/s6.d/.s6-svscan/finish /etc/s6.d/flood/run /etc/s6.d/rtorrent/run
+chown -R $UID:$GID /data /home/torrent /tmp /app/flood /flood-db
 
 exec su-exec $UID:$GID /sbin/tini -- $@
