@@ -17,7 +17,7 @@ ENV UID=991 \
 LABEL Description="flood based on alpine" \
       tags="" \
       maintainer="xataz <https://github.com/xataz>" \
-      build_ver="201802240730"
+      build_ver="201802250700"
 
 RUN export BUILD_DEPS="build-base \
                         libtool \
@@ -98,7 +98,7 @@ RUN export BUILD_DEPS="build-base \
     && delgroup svnusers
 
 ARG WITH_FILEBOT=NO
-ARG FILEBOT_VER=4.7.9
+ARG FILEBOT_VER=4.7.15.9
 ARG CHROMAPRINT_VER=1.4.3
 
 ENV FILEBOT_RENAME_METHOD="symlink" \
