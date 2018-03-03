@@ -60,7 +60,7 @@ RUN export BUILD_DEPS="build-base \
                 mediainfo \
     ## Download Sources
     && git clone https://github.com/esmil/mktorrent /tmp/mktorrent \
-    && svn checkout http://svn.code.sf.net/p/xmlrpc-c/code/stable /tmp/xmlrpc-c \
+    && git clone https://github.com/mirror/xmlrpc-c.git /tmp/xmlrpc-c \
     && git clone -b ${LIBTORRENT_VER} https://github.com/rakshasa/libtorrent.git /tmp/libtorrent \
     && git clone -b ${RTORRENT_VER} https://github.com/rakshasa/rtorrent.git /tmp/rtorrent \
     && git clone -b v${FLOOD_VER} https://github.com/jfurrow/flood/ /app/flood \
@@ -69,7 +69,7 @@ RUN export BUILD_DEPS="build-base \
     && make -j ${BUILD_CORES-$(grep -c "processor" /proc/cpuinfo)} \
     && make install \
     ## Compile xmlrpc-c
-    && cd /tmp/xmlrpc-c \
+    && cd /tmp/xmlrpc-c/stable \
     && ./configure \
     && make -j ${NB_CORES} \
     && make install \
