@@ -17,14 +17,13 @@ ENV UID=991 \
 LABEL Description="flood based on alpine" \
       tags="" \
       maintainer="xataz <https://github.com/xataz>" \
-      build_ver="201803030700"
+      build_ver="201803050007"
 
 RUN export BUILD_DEPS="build-base \
                         libtool \
                         automake \
                         autoconf \
                         wget \
-                        subversion \
                         libressl-dev \
                         ncurses-dev \
                         curl-dev \
@@ -93,12 +92,10 @@ RUN export BUILD_DEPS="build-base \
     && strip -s /usr/local/bin/rtorrent \
     && strip -s /usr/local/bin/mktorrent \
     && apk del -X http://dl-cdn.alpinelinux.org/alpine/v3.6/main ${BUILD_DEPS} cppunit-dev \
-    && rm -rf /var/cache/apk/* /tmp/* \
-    && deluser svn \
-    && delgroup svnusers
+    && rm -rf /var/cache/apk/* /tmp/*
 
 ARG WITH_FILEBOT=NO
-ARG FILEBOT_VER=4.7.19
+ARG FILEBOT_VER=4.7.9
 ARG CHROMAPRINT_VER=1.4.3
 
 ENV FILEBOT_RENAME_METHOD="symlink" \
