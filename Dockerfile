@@ -17,7 +17,7 @@ ENV UID=991 \
 LABEL Description="flood based on alpine" \
       tags="" \
       maintainer="xataz <https://github.com/xataz>" \
-      build_ver="201803050007"
+      build_ver="201803050700"
 
 RUN export BUILD_DEPS="build-base \
                         libtool \
@@ -95,7 +95,7 @@ RUN export BUILD_DEPS="build-base \
     && rm -rf /var/cache/apk/* /tmp/*
 
 ARG WITH_FILEBOT=NO
-ARG FILEBOT_VER=4.7.9
+ARG FILEBOT_VER=4.9.7
 ARG CHROMAPRINT_VER=1.4.3
 
 ENV FILEBOT_RENAME_METHOD="symlink" \
