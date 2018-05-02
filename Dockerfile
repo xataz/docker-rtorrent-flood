@@ -88,7 +88,7 @@ RUN export BUILD_DEPS="build-base \
     && cd /app/flood \
     && echo "151.101.32.162 registry.npmjs.org" >> /etc/hosts \ 
     && npm install \
-    && npm run build \
+    && npm cache clean --force \
     ## Cleanup
     && strip -s /usr/local/bin/rtorrent \
     && strip -s /usr/local/bin/mktorrent \
@@ -124,7 +124,9 @@ RUN if [ "${WITH_FILEBOT}" == "YES" ]; then \
 COPY rootfs /
 VOLUME /data /config
 EXPOSE 3000
-RUN chmod +x /usr/local/bin/startup
+RUN chmod +x /usr/local/bin/startup \
+    && cd /app/flood \
+    && npm run build
 
 ENTRYPOINT ["/usr/local/bin/startup"]
 CMD ["supervisord", "-c", "/etc/supervisor/supervisord.conf"]
