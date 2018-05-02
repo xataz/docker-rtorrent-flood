@@ -87,7 +87,7 @@ RUN export BUILD_DEPS="build-base \
     ## Install flood
     && cd /app/flood \
     && echo "151.101.32.162 registry.npmjs.org" >> /etc/hosts \ 
-    && npm install --production \
+    && npm install \
     && npm run build \
     ## Cleanup
     && strip -s /usr/local/bin/rtorrent \
