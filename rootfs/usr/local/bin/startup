@@ -45,13 +45,13 @@ if [ -e /filebot ]; then
 fi
 
 if [ ${RTORRENT_SCGI} -ne 0 ]; then
-    SUPERVISOR_ENV="RTORRENT_SCGI_HOST='locahost', RTORRENT_SCGI_PORT=${RTORRENT_SCGI}, RTORRENT_SOCK=false"
+    SUPERVISOR_ENV="RTORRENT_SCGI_HOST=locahost,RTORRENT_SCGI_PORT=${RTORRENT_SCGI},RTORRENT_SOCK=false,FLOOD_BASE_URI=${WEBROOT}"
     sed -i -e 's|^scgi_local.*$|scgi_port = 0.0.0.0:'${RTORRENT_SCGI}'|' /home/torrent/.rtorrent.rc
 else
-    SUPERVISOR_ENV="RTORRENT_SOCK=true"
+    SUPERVISOR_ENV="RTORRENT_SOCK=true,FLOOD_BASE_URI=${WEBROOT}"
 fi
-sed -i -e 's|<ENV>|'${SUPERVISOR_ENV}'|' /etc/supervisor/supervisord.conf
 
+sed -i -e 's|<ENV>|'${SUPERVISOR_ENV}'|' /etc/supervisor/supervisord.conf
 sed -i -e 's|<PORT_RTORRENT>|'$PORT_RTORRENT'|g' -e 's|<DHT_RTORRENT>|'$DHT_RTORRENT'|g' /home/torrent/.rtorrent.rc
 
 ## externalize rtorrent configuration
