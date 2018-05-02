@@ -15,7 +15,7 @@ ENV UID=991 \
     PKG_CONFIG_PATH=/usr/local/lib/pkgconfig
 
 LABEL Description="flood based on alpine" \
-      tags="" \
+      tags="1.0.0" \
       maintainer="xataz <https://github.com/xataz>" \
       build_ver="201804250830"
 
