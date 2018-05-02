@@ -67,4 +67,7 @@ fi
 echo "Apply permissions ..."
 chown -R $UID:$GID /data /home/torrent /tmp /app/flood /flood-db
 
+echo "Create Assets ..."
+su-exec $UID:$GID /usr/bin/npm run build
+
 exec su-exec $UID:$GID /sbin/tini -- $@
