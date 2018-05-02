@@ -23,8 +23,7 @@ rm -f /data/.session/rtorrent.lock
 
 ## Generate configuration
 echo "Generate configuration ..."
-sed -i -e "s|<FLOOD_SECRET>|$FLOOD_SECRET|g" \
-       -e "s|<WEBROOT>|$WEBROOT|g" /app/flood/config.js
+export FLOOD_BASE_URI=${WEBROOT}
 
 if [ -e /filebot ]; then
     mkdir -p /data/Media/Movies /data/Media/TV /data/Media/Animes /data/Media/Music
@@ -46,8 +45,12 @@ if [ -e /filebot ]; then
 fi
 
 if [ ${RTORRENT_SCGI} -ne 0 ]; then
+    export RTORRENT_SCGI_HOST="locahost"
+    export RTORRENT_SCGI_PORT=${RTORRENT_SCGI}
+    export RTORRENT_SOCK=false
     sed -i -e 's|^scgi_local.*$|scgi_port = 0.0.0.0:'${RTORRENT_SCGI}'|' /home/torrent/.rtorrent.rc
-    sed -i -e 's|socket: true,|socket: false,|' -e 's|port: 5000,|port: '${RTORRENT_SCGI}',|' /app/flood/config.js
+else
+    export RTORRENT_SOCK=true
 fi
 
 sed -i -e 's|<PORT_RTORRENT>|'$PORT_RTORRENT'|g' -e 's|<DHT_RTORRENT>|'$DHT_RTORRENT'|g' /home/torrent/.rtorrent.rc
