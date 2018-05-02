@@ -3,7 +3,6 @@ FROM xataz/alpine:3.7
 ARG BUILD_CORES
 ARG RTORRENT_VER=0.9.6
 ARG LIBTORRENT_VER=0.13.6
-ARG FLOOD_VER=1.0.0
 
 ENV UID=991 \
     GID=991 \
@@ -15,7 +14,8 @@ ENV UID=991 \
     PKG_CONFIG_PATH=/usr/local/lib/pkgconfig
 
 LABEL Description="flood based on alpine" \
-      tags="" \
+      tags="latest" \
+      commit="402dd1b8371d5ab81e3de7e172e3421ceb7fc93e" \
       maintainer="xataz <https://github.com/xataz>" \
       build_ver="201804250830"
 
@@ -62,7 +62,7 @@ RUN export BUILD_DEPS="build-base \
     && git clone https://github.com/mirror/xmlrpc-c.git /tmp/xmlrpc-c \
     && git clone -b ${LIBTORRENT_VER} https://github.com/rakshasa/libtorrent.git /tmp/libtorrent \
     && git clone -b ${RTORRENT_VER} https://github.com/rakshasa/rtorrent.git /tmp/rtorrent \
-    && git clone -b v${FLOOD_VER} https://github.com/jfurrow/flood/ /app/flood \
+    && git clone https://github.com/jfurrow/flood/ /app/flood \
     ## Compile mktorrent
     && cd /tmp/mktorrent \
     && make -j ${BUILD_CORES-$(grep -c "processor" /proc/cpuinfo)} \
