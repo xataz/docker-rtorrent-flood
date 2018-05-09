@@ -15,9 +15,9 @@ ENV UID=991 \
 
 LABEL Description="flood based on alpine" \
       tags="" \
-      commit="402dd1b8371d5ab81e3de7e172e3421ceb7fc93e" \
+      commit="" \
       maintainer="xataz <https://github.com/xataz>" \
-      build_ver="201805090800"
+      build_ver="201805090830"
 
 RUN export BUILD_DEPS="build-base \
                         libtool \
