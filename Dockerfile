@@ -2,7 +2,7 @@ FROM xataz/alpine:3.7
 
 ARG BUILD_CORES
 ARG RTORRENT_VER=pre-merge
-ARG LIBTORRENT_VER=pre-merge-1
+ARG LIBTORRENT_VER=0.13.7
 
 ENV UID=991 \
     GID=991 \
@@ -17,7 +17,7 @@ LABEL Description="flood based on alpine" \
       tags="" \
       commit="" \
       maintainer="xataz <https://github.com/xataz>" \
-      build_ver="201806060800"
+      build_ver="201806070702"
 
 RUN export BUILD_DEPS="build-base \
                         libtool \
