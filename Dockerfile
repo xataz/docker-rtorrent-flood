@@ -17,7 +17,7 @@ LABEL Description="flood based on alpine" \
       tags="" \
       commit="" \
       maintainer="xataz <https://github.com/xataz>" \
-      build_ver="201806240800"
+      build_ver="201806250800"
 
 RUN export BUILD_DEPS="build-base \
                         libtool \
