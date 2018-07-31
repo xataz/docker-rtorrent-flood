@@ -88,6 +88,8 @@ RUN export BUILD_DEPS="build-base \
     && cd /app/flood \
     && echo "151.101.32.162 registry.npmjs.org" >> /etc/hosts \ 
     && npm install \
+    && sed -i -e "s/\"-march=native\", //g" /app/flood/node_modules/argon2/binding.gyp \
+    && npm rebuild argon2 \
     && npm cache clean --force \
     ## Cleanup
     && strip -s /usr/local/bin/rtorrent \
